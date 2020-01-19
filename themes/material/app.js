@@ -191,7 +191,7 @@ function file(path){
 	}
 	
 	if("|avi|rm|rmvb|mov|wmv|asf|ts|flv|mkv|".indexOf(`|${ext}|`) >= 0){
-		doucument.write('<script src="https://cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js"></script><script src="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js"></script>');
+		document.write('<script src="https://cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js"></script><script src="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js"></script>');
 		return file_dpvideo(path);
 	}
 	
