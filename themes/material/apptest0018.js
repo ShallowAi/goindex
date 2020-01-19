@@ -287,7 +287,7 @@ function file_dpvideo(path){
 	var url = window.location.origin + path;
 	var content = `
 	<script src="//cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js"></script>
-	<script src="//cdn.jsdelivr.net/combine/npm/dplayer/dist/DPlayer.min.js,gh/ShallowAi/goindex@1.1.1/themes/material/init.js"></script>
+	<script src="//cdn.jsdelivr.net/combine/npm/dplayer/dist/DPlayer.min.js,gh/ShallowAi/goindex@1.1.1/themes/material/initp.js"></script>
 	<link class="dplayer-css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
 	<div class="mdui-container-fluid">
 	<br>
