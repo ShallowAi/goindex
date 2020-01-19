@@ -313,7 +313,7 @@ function file_dpvideo(path){
 	video: {
 	url: '${url}',
 	},
-});
+	});
 </script>
 <a href="${url}" class="mdui-fab mdui-fab-fixed mdui-ripple mdui-color-theme-accent"><i class="mdui-icon material-icons">file_download</i></a>
 	`;
