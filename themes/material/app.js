@@ -190,9 +190,40 @@ function file(path){
 		return file_video(path);
 	}
 	
+<<<<<<< Updated upstream
 	if("|avi|rm|rmvb|mov|wmv|asf|ts|flv|mkv|".indexOf(`|${ext}|`) >= 0){
 		document.write('<script src="https://cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js"></script><script src="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js"></script>');
 		return file_dpvideo(path);
+=======
+	if("|mov|mkv|".indexOf(`|${ext}|`) >= 0){
+		$.getScript('//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js',function(){
+		return file_dpvideo(path);
+		});
+	}
+	
+	if("|flv|f4v|".indexOf(`|${ext}|`) >= 0){
+		$.getScript('//cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js',function(){
+			$.getScript('//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js',function(){
+			return file_dpvideo(path);
+			});
+		});
+	}
+	
+	if("|m3u8|ts|".indexOf(`|${ext}|`) >= 0){
+		$.getScript('//cdn.jsdelivr.net/npm/hls.js/dist/hls.min.js',function(){
+			$.getScript('//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js',function(){
+			return file_dpvideo(path);
+			});
+		});
+	}
+	
+	if("|m4s|mpd|".indexOf(`|${ext}|`) >= 0){
+		$.getScript('//cdn.jsdelivr.net/npm/dashjs/dist/dash.all.min.js',function(){
+			$.getScript('//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js',function(){
+			return file_dpvideo(path);
+			});
+		});
+>>>>>>> Stashed changes
 	}
 	
 	if("|mp3|wav|ogg|m4a|".indexOf(`|${ext}|`) >= 0){
