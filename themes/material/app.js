@@ -145,7 +145,7 @@ function list_files(path,files){
                 });
             }
             var ext = p.split('.').pop();
-            if("|html|php|css|go|java|js|json|txt|sh|md|mp4|webm|mov|mkv|mpg|mpeg|flv|f4v|m3u8|ts|m4s|mpd|mp3|wav|ogg|m4a|bmp|jpg|jpeg|png|gif|webp|".indexOf(`|${ext}|`) >= 0){
+            if("|html|php|css|go|java|js|json|txt|sh|md|mp4|webm|mov|mkv|mpg|mpeg|flv|f4v|m3u8|ts|m4s|mpd|mp3|wav|ogg|m4a|bmp|jpg|jpeg|png|gif|webp|torrent|".indexOf(`|${ext}|`) >= 0){
 	            p += "?a=view";
 	            c += " view";
             }
@@ -187,17 +187,25 @@ function file(path){
 		return file_code(path);
 	}
 
-	if("|mp4|webm|".indexOf(`|${ext}|`) >= 0){
+	else if("|mp4|webm|".indexOf(`|${ext}|`) >= 0){
 		return file_video(path);
 	}
 	
-	if("|mov|mkv|mpg|mpeg|".indexOf(`|${ext}|`) >= 0){
+	else if("|mp3|wav|ogg|m4a|".indexOf(`|${ext}|`) >= 0){
+		return file_audio(path);
+	}
+
+	else if("|bmp|jpg|jpeg|png|gif|webp|".indexOf(`|${ext}|`) >= 0){
+		return file_image(path);
+	}
+	
+	else if("|mov|mkv|mpg|mpeg|".indexOf(`|${ext}|`) >= 0){
 		$.getScript('//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js',function(){
 		return file_dpvideo(path);
 		});
 	}
 	
-	if("|flv|f4v|".indexOf(`|${ext}|`) >= 0){
+	else if("|flv|f4v|".indexOf(`|${ext}|`) >= 0){
 		$.getScript('//cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js',function(){
 			$.getScript('//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js',function(){
 			return file_dpvideo(path);
@@ -205,7 +213,7 @@ function file(path){
 		});
 	}
 	
-	if("|m3u8|ts|".indexOf(`|${ext}|`) >= 0){
+	else if("|m3u8|ts|".indexOf(`|${ext}|`) >= 0){
 		$.getScript('//cdn.jsdelivr.net/npm/hls.js/dist/hls.min.js',function(){
 			$.getScript('//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js',function(){
 			return file_dpvideo(path);
@@ -213,7 +221,7 @@ function file(path){
 		});
 	}
 	
-	if("|m4s|mpd|".indexOf(`|${ext}|`) >= 0){
+	else if("|m4s|mpd|".indexOf(`|${ext}|`) >= 0){
 		$.getScript('//cdn.jsdelivr.net/npm/dashjs/dist/dash.all.min.js',function(){
 			$.getScript('//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js',function(){
 			return file_dpvideo(path);
@@ -221,12 +229,12 @@ function file(path){
 		});
 	}
 	
-	if("|mp3|wav|ogg|m4a|".indexOf(`|${ext}|`) >= 0){
-		return file_audio(path);
-	}
-
-	if("|bmp|jpg|jpeg|png|gif|webp|".indexOf(`|${ext}|`) >= 0){
-		return file_image(path);
+	else if("|torrent|".indexOf(`|${ext}|`) >= 0){
+		$.getScript('//cdn.jsdelivr.net/npm/webtorrent/webtorrent.min.js',function(){
+			$.getScript('//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js',function(){
+			return file_dptorrentvideo(path);
+			});
+		});
 	}
 }
 
@@ -335,6 +343,42 @@ function file_dpvideo(path){
 	lang:'zh-cn',
 	video: {
 	url: '${url}',
+	},
+	});
+	}
+	</script>
+	<a href="${url}" class="mdui-fab mdui-fab-fixed mdui-ripple mdui-color-theme-accent"><i class="mdui-icon material-icons">file_download</i></a>
+	`;
+	$('#content').html(content);
+}
+
+function file_dptorrentvideo(path){
+	var url = window.location.origin + path;
+	var content = `
+	<link class="dplayer-css" rel="stylesheet" href="//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
+	<div class="mdui-container-fluid">
+	<br>
+	<div id="dplayer"></div>
+	<br>
+	<!-- 固定标签 -->
+	<div class="mdui-textfield">
+	  <label class="mdui-textfield-label">下载地址</label>
+	  <input class="mdui-textfield-input" type="text" value="${url}"/>
+	</div>
+	<div class="mdui-textfield">
+	  <label class="mdui-textfield-label">HTML 引用</label>
+	  <textarea class="mdui-textfield-input"><video><source src="${url}"></video></textarea>
+	</div>
+	</div>
+	<script>
+	// 初始化播放器
+	if (typeof dp == "undefined"){
+	const dp = new DPlayer({
+	container: document.getElementById('dplayer'),
+	lang:'zh-cn',
+	video: {
+	url: '${url}',
+	type: 'webtorrent',
 	},
 	});
 	}
